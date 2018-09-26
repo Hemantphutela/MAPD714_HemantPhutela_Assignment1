@@ -10,38 +10,95 @@ import UIKit
 
 class ViewController: UIViewController {
     var numberOnscreen:Double = 0;
+    var previousNumber:Double = 0;
+    var minusNumber:Double = -1;
+    
+    var performingMath = false
+    var operation = 0;
     
     @IBOutlet weak var label: UILabel!
     
-    @IBAction func numbers(_ sender: Any)
+    @IBAction func numbers(_ sender: UIButton)
     {
-        label.text = label.text! + String((sender as AnyObject).tag-1)
-        numberOnscreen = Double(label.text!)!
+        if performingMath == true
+        {
+         label.text = String(sender.tag-1)
+            numberOnscreen = Double(label.text!)!
+            performingMath = false
+        }
+        else{
+            label.text = label.text! + String((sender as AnyObject).tag-1)
+            numberOnscreen = Double(label.text!)!
+        }
+        
     }
     
     @IBAction func buttons(_ sender: UIButton)
     {
         if label.text != "" && sender.tag != 11 && sender.tag != 16
         {
+            
+            //previousNumber = Double(label.text!)!
+            if sender.tag == 18 //+/-
+            {
+                previousNumber = Double(label.text!)!
+                 label.text = String(previousNumber * minusNumber)
+               //previousNumber = previousNumber * minusNumber
+            }
+            
+              previousNumber = Double(label.text!)!
+            
+            
             if sender.tag == 12 //divide
             {
-                
+                label.text = "/";
             }
             else if sender.tag == 13 //Multiply
             {
-            
+            label.text = "x";
             }
             else if sender.tag == 14 //Minus
             {
-                
+               label.text = "-";
             }
             else if sender.tag == 15 //Plus
             {
-                
+                label.text = "+";
             }
+            
+            operation = sender.tag;
+            performingMath = true;
+            }
+         else if sender.tag == 16
+        {
+            if operation == 12
+            {
+        label.text = String(previousNumber / numberOnscreen)
+            }
+            else if operation == 13
+            {
+               label.text = String(previousNumber * numberOnscreen)
+            }
+            else if operation == 14
+            {
+                label.text = String(previousNumber - numberOnscreen)
+            }
+            else if operation == 15
+            {
+                label.text = String(previousNumber + numberOnscreen)
+            }
+            else if operation == 17
+            {
+                label.text = String(numberOnscreen / 100)
             }
         }
-    
+        else if sender.tag == 11
+        {
+            label.text = "0"
+            previousNumber = 0;
+            operation = 0;
+        }
+    }
     
     
     override func viewDidLoad() {
