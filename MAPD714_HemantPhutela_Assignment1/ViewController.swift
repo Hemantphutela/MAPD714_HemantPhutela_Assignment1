@@ -13,26 +13,44 @@ class ViewController: UIViewController {
     var previousNumber:Double = 0;
     var minusNumber:Double = -1;
     
-    var performingMath = false
+   var performingMath = false
     var operation = 0;
+    var hasDecimal:Bool = false
     
     @IBOutlet weak var label: UILabel!
     
     @IBAction func numbers(_ sender: UIButton)
     {
-        if performingMath == true
-        {
-         label.text = String(sender.tag-1)
-            numberOnscreen = Double(label.text!)!
-            performingMath = false
-        }
-        else{
-            label.text = label.text! + String((sender as AnyObject).tag-1)
-            numberOnscreen = Double(label.text!)!
+        //remove 0
+        if(label.text == "0") {
+            
+            if(sender.tag != -1) {
+                label.text = ""
+                
+            }
+            else {
+                if(hasDecimal) {
+                    label.text = "0"
+                }
+            }
+            
         }
         
-    }
+     
+       if(sender.tag == -1) {
+                if(!hasDecimal) {
+                    label.text?.append(".")
+                    hasDecimal = true
+                    
+                }
+            }
+            else {
+                label.text?.append(String(sender.tag-1))
+        
+            }
+        numberOnscreen = Double(label.text!)!
     
+    }
     @IBAction func buttons(_ sender: UIButton)
     {
         if label.text != "" && sender.tag != 11 && sender.tag != 16
@@ -47,23 +65,21 @@ class ViewController: UIViewController {
             }
             
               previousNumber = Double(label.text!)!
-            
-            
             if sender.tag == 12 //divide
             {
-                label.text = "/";
+                label.text = "";
             }
             else if sender.tag == 13 //Multiply
             {
-            label.text = "x";
+            label.text = "";
             }
             else if sender.tag == 14 //Minus
             {
-               label.text = "-";
+               label.text = "";
             }
             else if sender.tag == 15 //Plus
             {
-                label.text = "+";
+                label.text = "";
             }
             
             operation = sender.tag;
@@ -71,10 +87,18 @@ class ViewController: UIViewController {
             }
          else if sender.tag == 16
         {
+            
             if operation == 12
             {
+                if numberOnscreen == 0
+                {
+                    label.text="Error"
+                }
+                else
+                {
         label.text = String(previousNumber / numberOnscreen)
-            }
+                }
+                }
             else if operation == 13
             {
                label.text = String(previousNumber * numberOnscreen)
