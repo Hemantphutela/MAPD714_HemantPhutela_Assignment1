@@ -36,8 +36,7 @@ class ViewController: UIViewController {
             
         }
         
-     
-       if(sender.tag == -1) {
+     if(sender.tag == -1) {
                 if(!hasDecimal) {
                     label.text?.append(".")
                     hasDecimal = true
@@ -93,7 +92,7 @@ class ViewController: UIViewController {
                 if numberOnscreen == 0
                 {
                     label.text="Error"
-                }
+                    }
                 else
                 {
         label.text = String(previousNumber / numberOnscreen)
@@ -121,6 +120,7 @@ class ViewController: UIViewController {
             label.text = "0"
             previousNumber = 0;
             operation = 0;
+            hasDecimal = false;
         }
     }
     
